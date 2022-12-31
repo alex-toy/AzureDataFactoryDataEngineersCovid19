@@ -1,4 +1,4 @@
-# AzureDataFactoryDataEngineersCovid19
+# Azure Data Factory Data Engineers Covid 19
 
 
 ## Topics covered in this project
@@ -35,3 +35,13 @@
 - Creating Azure Databricks Workspace, Creating Databricks clusters, Mounting storage accounts, Creating Databricks notebooks, performing transformations using Databricks notebooks, Invoking Databricks notebooks from Azure Data Factory.
 
 <img src="/pictures/adf_architecture.png" title="adf architecture"  width="800">
+
+
+## Environment Setup
+
+1. Create **Data Factory**
+
+<img src="/pictures/create_data_factory.png" title="create data factory"  width="800">
+<img src="/pictures/create_data_factory2.png" title="create data factory"  width="800">
+
+
