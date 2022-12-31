@@ -59,3 +59,13 @@
 <img src="/pictures/create_sql2.png" title="create sql database"  width="800">
 
 
+## Environment Setup
+
+1. Data ingestion from **Azure Blob**
+
+<img src="/pictures/linked_services.png" title="linked services"  width="500">
+<img src="/pictures/linked_service_sa.png" title="linked services storage account"  width="500">
+<img src="/pictures/linked_service_gen2.png" title="linked services gen2"  width="500">
+<img src="/pictures/linked_service_all.png" title="linked services all"  width="500">
+
+

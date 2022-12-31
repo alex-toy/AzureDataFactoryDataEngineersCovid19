@@ -3,22 +3,22 @@ az group create `
     --name alexeirg
 
 
-# az deployment group create `
-#     --resource-group alexeirg `
-#     --template-file 'deployment\database\template.json' `
-#     --parameters 'deployment\database\parameters.json'
+az deployment group create `
+    --resource-group alexeirg `
+    --template-file 'deployment\database\template.json' `
+    --parameters 'deployment\database\parameters.json'
 
 
-# az deployment group create `
-#     --resource-group alexeirg `
-#     --template-file 'deployment\factory\template.json' `
-#     --parameters 'deployment\factory\parameters.json'
+az deployment group create `
+    --resource-group alexeirg `
+    --template-file 'deployment\factory\template.json' `
+    --parameters 'deployment\factory\parameters.json'
 
 
-# az deployment group create `
-# --resource-group alexeirg `
-# --template-file 'deployment\storage\template.json' `
-# --parameters 'deployment\storage\parameters.json'
+az deployment group create `
+--resource-group alexeirg `
+--template-file 'deployment\storage\template.json' `
+--parameters 'deployment\storage\parameters.json'
 
 
 az deployment group create `

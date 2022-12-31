@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "storageName": {
-            "value": "alexeicovidreportingtest"
+            "value": "alexeicovidreporting"
         },
         "containerName": {
             "value": "population"
