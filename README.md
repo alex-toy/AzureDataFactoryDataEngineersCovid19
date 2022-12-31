@@ -48,12 +48,12 @@
 
 <img src="/pictures/create_storage_account.png" title="create storage account"  width="500">
 
-2. Create **Azure DataLake Storage Gen2**
+3. Create **Azure DataLake Storage Gen2**
 
 <img src="/pictures/create_storage_gen.png" title="create storage gen2"  width="500">
 <img src="/pictures/create_storage_gen2.png" title="create storage gen2"  width="500">
 
-2. Create **Azure SQL Database**
+4. Create **Azure SQL Database**
 
 <img src="/pictures/create_sql.png" title="create sql database"  width="500">
 <img src="/pictures/create_sql2.png" title="create sql database"  width="800">
@@ -63,9 +63,23 @@
 
 1. Data ingestion from **Azure Blob**
 
-<img src="/pictures/linked_services.png" title="linked services"  width="500">
+<img src="/pictures/linked_services.png" title="linked services"  width="800">
 <img src="/pictures/linked_service_sa.png" title="linked services storage account"  width="500">
 <img src="/pictures/linked_service_gen2.png" title="linked services gen2"  width="500">
-<img src="/pictures/linked_service_all.png" title="linked services all"  width="500">
+<img src="/pictures/linked_service_all.png" title="linked services all"  width="800">
+
+2. Data sets
+
+<img src="/pictures/new_dataset.png" title="new dataset"  width="400">
+
+Choose *Azure blob Storage* and *delimited text* :
+
+<img src="/pictures/population_dataset.png" title="population dataset"  width="400">
+<img src="/pictures/population_dataset2.png" title="population dataset"  width="800">
+
+Choose *Azure Datalake Storage gen2* and *delimited text* :
+
+<img src="/pictures/population_dataset_gen2.png" title="population dataset"  width="400">
+<img src="/pictures/population_dataset_gen22.png" title="population dataset"  width="800">
 
 
