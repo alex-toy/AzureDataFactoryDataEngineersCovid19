@@ -41,16 +41,21 @@
 
 1. Create **Data Factory**
 
-<img src="/pictures/create_data_factory.png" title="create data factory"  width="800">
+<img src="/pictures/create_data_factory.png" title="create data factory"  width="500">
 <img src="/pictures/create_data_factory2.png" title="create data factory"  width="800">
 
 2. Create **Storage Account**
 
-<img src="/pictures/create_storage_account.png" title="create storage account"  width="800">
+<img src="/pictures/create_storage_account.png" title="create storage account"  width="500">
 
 2. Create **Azure DataLake Storage Gen2**
 
-<img src="/pictures/create_storage_gen.png" title="create storage gen2"  width="800">
-<img src="/pictures/create_storage_gen2.png" title="create storage gen2"  width="800">
+<img src="/pictures/create_storage_gen.png" title="create storage gen2"  width="500">
+<img src="/pictures/create_storage_gen2.png" title="create storage gen2"  width="500">
+
+2. Create **Azure SQL Database**
+
+<img src="/pictures/create_sql.png" title="create sql database"  width="500">
+<img src="/pictures/create_sql2.png" title="create sql database"  width="800">
 
 

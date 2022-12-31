@@ -2,76 +2,17 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "subscription": {
-            "value": "bfa5a4b9-6992-4ebd-a737-d73392fe7dba"
+        "vulnerabilityAssessments_Default_storageContainerPath": {
+            "value": null
         },
-        "resourceGroup": {
-            "value": "alexeirg"
+        "servers_alexeicovidserver_name": {
+            "value": null
         },
-        "name": {
-            "value": "covidreportingalexei"
+        "storageAccounts_alexeicovidreporting_name": {
+            "value": null
         },
-        "version": {
-            "value": "V2"
-        },
-        "location": {
-            "value": "francecentral"
-        },
-        "tagsByResource": {
-            "value": {}
-        },
-        "vNetEnabled": {
-            "value": false
-        },
-        "publicNetworkAccess": {
-            "value": true
-        },
-        "privateEndpoints": {
-            "value": []
-        },
-        "gitConfigureLater": {
-            "value": false
-        },
-        "gitRepoType": {
-            "value": "FactoryGitHubConfiguration"
-        },
-        "gitAccountName": {
-            "value": "https://github.com/alex-toy"
-        },
-        "gitProjectName": {
-            "value": ""
-        },
-        "gitRepositoryName": {
-            "value": "AzureDataFactoryDataEngineersCovid19"
-        },
-        "gitCollaborationBranch": {
-            "value": "main"
-        },
-        "gitRootFolder": {
-            "value": "/"
-        },
-        "userAssignedIdentities": {
-            "value": {
-                "type": "SystemAssigned"
-            }
-        },
-        "userAssignedIdentitiesStr": {
-            "value": "{\"type\": \"SystemAssigned,UserAssigned\", \"userAssignedIdentities\": {\"\": {}"
-        },
-        "vaultBaseUrl": {
-            "value": ""
-        },
-        "keyName": {
-            "value": ""
-        },
-        "keyVersion": {
-            "value": ""
-        },
-        "enableCMK": {
-            "value": false
-        },
-        "cmkIdentity": {
-            "value": ""
+        "storageAccounts_alexeicovidreportinggen2_name": {
+            "value": null
         }
     }
 }

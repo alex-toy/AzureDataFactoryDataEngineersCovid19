@@ -1,308 +1,863 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "subscription": {
-            "defaultValue": "",
+        "vulnerabilityAssessments_Default_storageContainerPath": {
+            "type": "SecureString"
+        },
+        "servers_alexeicovidserver_name": {
+            "defaultValue": "alexeicovidserver",
             "type": "String"
         },
-        "resourceGroup": {
-            "defaultValue": "",
+        "storageAccounts_alexeicovidreporting_name": {
+            "defaultValue": "alexeicovidreporting",
             "type": "String"
         },
-        "name": {
-            "defaultValue": "myv2datafactory",
-            "type": "String"
-        },
-        "version": {
-            "defaultValue": "V2",
-            "type": "String"
-        },
-        "location": {
-            "defaultValue": "eastus",
-            "type": "String"
-        },
-        "tagsByResource": {
-            "type": "Object"
-        },
-        "vNetEnabled": {
-            "defaultValue": false,
-            "type": "Bool"
-        },
-        "publicNetworkAccess": {
-            "defaultValue": true,
-            "type": "Bool"
-        },
-        "privateEndpoints": {
-            "type": "Array",
-            "metadata": {
-                "description": "Private endpoints. Empty if no private network access selected."
-            }
-        },
-        "gitConfigureLater": {
-            "defaultValue": true,
-            "type": "Bool"
-        },
-        "gitRepoType": {
-            "defaultValue": "FactoryVSTSConfiguration",
-            "type": "String"
-        },
-        "gitAccountName": {
-            "defaultValue": "",
-            "type": "String"
-        },
-        "gitProjectName": {
-            "defaultValue": "",
-            "type": "String"
-        },
-        "gitRepositoryName": {
-            "defaultValue": "",
-            "type": "String"
-        },
-        "gitCollaborationBranch": {
-            "defaultValue": "master",
-            "type": "String"
-        },
-        "gitRootFolder": {
-            "defaultValue": "/",
-            "type": "String"
-        },
-        "userAssignedIdentities": {
-            "defaultValue": {
-                "type": "SystemAssigned"
-            },
-            "type": "Object"
-        },
-        "userAssignedIdentitiesStr": {
-            "defaultValue": "",
-            "type": "String"
-        },
-        "vaultBaseUrl": {
-            "defaultValue": "",
-            "type": "String"
-        },
-        "keyName": {
-            "defaultValue": "",
-            "type": "String"
-        },
-        "keyVersion": {
-            "defaultValue": "",
-            "type": "String"
-        },
-        "enableCMK": {
-            "defaultValue": false,
-            "type": "Bool"
-        },
-        "cmkIdentity": {
-            "defaultValue": "",
+        "storageAccounts_alexeicovidreportinggen2_name": {
+            "defaultValue": "alexeicovidreportinggen2",
             "type": "String"
         }
     },
-    "variables": {
-        "hasPE": "[greater(length(parameters('privateEndpoints')), 0)]",
-        "resourceGroupId": "[if(variables('hasPE'),parameters('privateEndpoints')[0].privateEndpointConfiguration.resourceGroup.value.name, '')]",
-        "subNetId": "[if(variables('hasPE'),parameters('privateEndpoints')[0].privateEndpointConfiguration.privateEndpoint.properties.subnet.id, '')]",
-        "subNetSub": "[if(variables('hasPE'),split(variables('subNetId'),'/')[2],'')]",
-        "subNetRg": "[if(variables('hasPE'),split(variables('subNetId'),'/')[4],'')]",
-        "subNetName": "[if(variables('hasPE'),split(variables('subNetId'),'/')[8],'')]",
-        "integrateDns": "[if(variables('hasPE'),parameters('privateEndpoints')[0].privateDnsZoneConfiguration.integrateWithPrivateDnsZone, 'true')]"
-    },
+    "variables": {},
     "resources": [
         {
-            "type": "Microsoft.DataFactory/factories",
-            "apiVersion": "2018-06-01",
-            "name": "[parameters('name')]",
-            "location": "[parameters('location')]",
-            "tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.DataFactory/factories'), parameters('tagsByResource')['Microsoft.DataFactory/factories'], json('{}')) ]",
-            "identity": "[if(parameters('enableCMK'),json(parameters('userAssignedIdentitiesStr')), parameters('userAssignedIdentities'))]",
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[parameters('servers_alexeicovidserver_name')]",
+            "location": "francecentral",
+            "kind": "v12.0",
             "properties": {
-                "repoConfiguration": "[if(bool(parameters('gitConfigureLater')), json('null'), json(concat('{\"type\": \"', parameters('gitRepoType'), '\",','\"accountName\": \"', parameters('gitAccountName'), '\",','\"repositoryName\": \"', parameters('gitRepositoryName'), '\",', if(equals(parameters('gitRepoType'), 'FactoryVSTSConfiguration'), concat('\"projectName\": \"', parameters('gitProjectName'), '\",'), ''),'\"collaborationBranch\": \"', parameters('gitCollaborationBranch'), '\",','\"rootFolder\": \"', parameters('gitRootFolder'), '\"}')))]",
-                "publicNetworkAccess": "[if(bool(parameters('publicNetworkAccess')), 'Enabled', 'Disabled')]",
-                "encryption": "[if(parameters('enableCMK'), json(concat('{\"identity\":{\"userAssignedIdentity\":\"', parameters('cmkIdentity'), '\"},','\"VaultBaseUrl\": \"', parameters('vaultBaseUrl'), '\",','\"KeyName\": \"', parameters('keyName'), '\",','\"KeyVersion\": \"', parameters('keyVersion'), '\"}')), json('null'))]"
+                "administratorLogin": "alexeiadmin",
+                "version": "12.0",
+                "minimalTlsVersion": "1.2",
+                "publicNetworkAccess": "Enabled",
+                "restrictOutboundNetworkAccess": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2022-05-01",
+            "name": "[parameters('storageAccounts_alexeicovidreporting_name')]",
+            "location": "francecentral",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
             },
-            "resources": [
-                {
-                    "type": "Microsoft.DataFactory/factories/managedVirtualNetworks",
-                    "apiVersion": "2018-06-01",
-                    "name": "[concat(parameters('name'), '/default')]",
-                    "dependsOn": [
-                        "[concat('Microsoft.DataFactory/factories/', parameters('name'))]"
-                    ],
-                    "properties": {},
-                    "condition": "[and(equals(parameters('version'), 'V2'), parameters('vNetEnabled'))]"
+            "kind": "StorageV2",
+            "properties": {
+                "dnsEndpointType": "Standard",
+                "defaultToOAuthAuthentication": false,
+                "publicNetworkAccess": "Enabled",
+                "allowCrossTenantReplication": true,
+                "minimumTlsVersion": "TLS1_2",
+                "allowBlobPublicAccess": true,
+                "allowSharedKeyAccess": true,
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
                 },
-                {
-                    "type": "Microsoft.DataFactory/factories/integrationRuntimes",
-                    "apiVersion": "2018-06-01",
-                    "name": "[concat(parameters('name'), '/AutoResolveIntegrationRuntime')]",
-                    "dependsOn": [
-                        "[concat('Microsoft.DataFactory/factories/', parameters('name'))]",
-                        "[concat('Microsoft.DataFactory/factories/', parameters('name'), '/managedVirtualNetworks/default')]"
-                    ],
-                    "properties": {
-                        "type": "Managed",
-                        "managedVirtualNetwork": {
-                            "referenceName": "default",
-                            "type": "ManagedVirtualNetworkReference"
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                    "requireInfrastructureEncryption": false,
+                    "services": {
+                        "file": {
+                            "keyType": "Account",
+                            "enabled": true
                         },
-                        "typeProperties": {
-                            "computeProperties": {
-                                "location": "AutoResolve",
-                                "dataFlowProperties": {
-                                    "computeType": "General",
-                                    "coreCount": 8,
-                                    "timeToLive": 0
-                                }
-                            }
+                        "blob": {
+                            "keyType": "Account",
+                            "enabled": true
                         }
                     },
-                    "condition": "[and(equals(parameters('version'), 'V2'), parameters('vNetEnabled'))]"
-                }
-            ],
-            "condition": "[equals(parameters('version'), 'V2')]"
+                    "keySource": "Microsoft.Storage"
+                },
+                "accessTier": "Hot"
+            }
         },
         {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2018-05-01",
-            "name": "[concat('deployResourceGroup-', parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.resourceGroup.value.name)]",
-            "location": "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.privateEndpoint.location]",
-            "dependsOn": [
-                "[parameters('name')]"
-            ],
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2022-05-01",
+            "name": "[parameters('storageAccounts_alexeicovidreportinggen2_name')]",
+            "location": "francecentral",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "StorageV2",
             "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "resources": [
-                        {
-                            "type": "Microsoft.Resources/resourceGroups",
-                            "apiVersion": "2021-04-01",
-                            "name": "[variables('resourceGroupId')]",
-                            "location": "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.privateEndpoint.location]",
-                            "properties": {}
-                        }
-                    ]
-                }
-            },
-            "subscriptionId": "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.subscription.subscriptionId]",
-            "copy": {
-                "name": "privateendpointscopy",
-                "count": "[length(parameters('privateEndpoints'))]"
-            },
-            "condition": "[and(not(parameters('publicNetworkAccess')), equals(parameters('privateEndpoints')[0].privateEndpointConfiguration.resourceGroup.mode, 1))]"
-        },
-        {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2017-05-10",
-            "name": "[concat('deployPrivateEndpoint-', parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.privateEndpoint.name)]",
-            "dependsOn": [
-                "[parameters('name')]",
-                "[concat('deployResourceGroup-', parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.resourceGroup.value.name)]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "resources": [
-                        {
-                            "location": "[parameters('location')]",
-                            "name": "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.privateEndpoint.name]",
-                            "type": "Microsoft.Network/privateEndpoints",
-                            "apiVersion": "2020-03-01",
-                            "properties": {
-                                "subnet": {
-                                    "id": "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.privateEndpoint.properties.subnet.id]"
-                                },
-                                "privateLinkServiceConnections": [
-                                    {
-                                        "name": "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.privateEndpoint.name]",
-                                        "properties": {
-                                            "privateLinkServiceId": "[concat('/subscriptions/',parameters('subscription'),'/resourcegroups/',parameters('resourceGroup'), '/providers/Microsoft.DataFactory/factories/', parameters('name'))]",
-                                            "groupIds": "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.privateEndpoint.properties.privateLinkServiceConnections[0].properties.groupIds]"
-                                        }
-                                    }
-                                ]
-                            },
-                            "tags": {}
-                        }
-                    ]
-                }
-            },
-            "subscriptionId": "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.subscription.subscriptionId]",
-            "resourceGroup": "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.resourceGroup.value.name]",
-            "copy": {
-                "name": "privateendpointscopy",
-                "count": "[length(parameters('privateEndpoints'))]"
-            },
-            "condition": "[not(parameters('publicNetworkAccess'))]"
-        },
-        {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2017-05-10",
-            "name": "[concat('deployPrivateDnsZone-', parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.privateEndpoint.name)]",
-            "dependsOn": [
-                "[concat('Microsoft.Resources/deployments/', concat('deployPrivateEndpoint-', parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.privateEndpoint.name))]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "resources": [
-                        {
-                            "type": "Microsoft.Network/privateDnsZones",
-                            "apiVersion": "2018-09-01",
-                            "name": "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.subResource.expectedPrivateDnsZoneName]",
-                            "location": "global",
-                            "tags": {},
-                            "properties": {}
+                "dnsEndpointType": "Standard",
+                "defaultToOAuthAuthentication": false,
+                "publicNetworkAccess": "Enabled",
+                "allowCrossTenantReplication": false,
+                "isSftpEnabled": false,
+                "minimumTlsVersion": "TLS1_2",
+                "allowBlobPublicAccess": true,
+                "allowSharedKeyAccess": true,
+                "isHnsEnabled": true,
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                    "requireInfrastructureEncryption": false,
+                    "services": {
+                        "file": {
+                            "keyType": "Account",
+                            "enabled": true
                         },
-                        {
-                            "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
-                            "apiVersion": "2018-09-01",
-                            "name": "[concat(string(parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.subResource.expectedPrivateDnsZoneName), '/', uniquestring(variables('subNetId')))]",
-                            "location": "global",
-                            "dependsOn": [
-                                "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.subResource.expectedPrivateDnsZoneName]"
-                            ],
-                            "properties": {
-                                "virtualNetwork": {
-                                    "id": "[concat('/subscriptions/',variables('subNetSub'),'/resourceGroups/',variables('subNetRg'),'/providers/Microsoft.Network/virtualNetworks/',variables('subNetName'))]"
-                                },
-                                "registrationEnabled": false
-                            }
-                        },
-                        {
-                            "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
-                            "apiVersion": "2020-03-01",
-                            "name": "[concat(parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.privateEndpoint.name, '/', 'default')]",
-                            "location": "[parameters('location')]",
-                            "dependsOn": [
-                                "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.subResource.expectedPrivateDnsZoneName]"
-                            ],
-                            "properties": {
-                                "privateDnsZoneConfigs": [
-                                    {
-                                        "name": "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.subResource.expectedPrivateDnsZoneName]",
-                                        "properties": {
-                                            "privateDnsZoneId": "[concat('/subscriptions/',variables('subNetSub'),'/resourcegroups/',variables('subNetRg'), '/providers/Microsoft.Network/privateDnsZones/', parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.subResource.expectedPrivateDnsZoneName )]"
-                                        }
-                                    }
-                                ]
-                            }
+                        "blob": {
+                            "keyType": "Account",
+                            "enabled": true
                         }
-                    ]
+                    },
+                    "keySource": "Microsoft.Storage"
+                },
+                "accessTier": "Hot"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/advancedThreatProtectionSettings",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/CreateIndex')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/DbParameterization')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/DefragmentIndex')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/DropIndex')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/ForceLastGoodPlan')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/auditingPolicies",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/Default')]",
+            "location": "France Central",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "auditingState": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/auditingSettings",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 0,
+                "auditActionsAndGroups": [],
+                "isStorageSecondaryKeyInUse": false,
+                "isAzureMonitorTargetEnabled": false,
+                "isManagedIdentityInUse": false,
+                "state": "Disabled",
+                "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/connectionPolicies",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/default')]",
+            "location": "francecentral",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "connectionType": "Default"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb')]",
+            "location": "francecentral",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "sku": {
+                "name": "GP_S_Gen5",
+                "tier": "GeneralPurpose",
+                "family": "Gen5",
+                "capacity": 1
+            },
+            "kind": "v12.0,user,vcore,serverless",
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "maxSizeBytes": 34359738368,
+                "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+                "zoneRedundant": false,
+                "readScale": "Disabled",
+                "autoPauseDelay": 60,
+                "requestedBackupStorageRedundancy": "Local",
+                "minCapacity": 0.5,
+                "maintenanceConfigurationId": "/subscriptions/bfa5a4b9-6992-4ebd-a737-d73392fe7dba/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
+                "isLedgerOn": false
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/advancedThreatProtectionSettings",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/master/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/auditingPolicies",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/master/Default')]",
+            "location": "France Central",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "auditingState": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/auditingSettings",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/master/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 0,
+                "isAzureMonitorTargetEnabled": false,
+                "state": "Disabled",
+                "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/extendedAuditingSettings",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/master/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 0,
+                "isAzureMonitorTargetEnabled": false,
+                "state": "Disabled",
+                "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/geoBackupPolicies",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/master/Default')]",
+            "location": "France Central",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/ledgerDigestUploads",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/master/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/securityAlertPolicies",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/master/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/master/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/master/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
                 }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/devOpsAuditingSettings",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "isAzureMonitorTargetEnabled": false,
+                "isManagedIdentityInUse": false,
+                "state": "Disabled",
+                "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/encryptionProtector",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "kind": "servicemanaged",
+            "properties": {
+                "serverKeyName": "ServiceManaged",
+                "serverKeyType": "ServiceManaged",
+                "autoRotationEnabled": false
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/extendedAuditingSettings",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 0,
+                "auditActionsAndGroups": [],
+                "isStorageSecondaryKeyInUse": false,
+                "isAzureMonitorTargetEnabled": false,
+                "isManagedIdentityInUse": false,
+                "state": "Disabled",
+                "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/firewallRules",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/AllowAllWindowsAzureIps')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Sql/servers/firewallRules",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/ClientIp-2022-12-31_9-59-52')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Sql/servers/keys",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/ServiceManaged')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "kind": "servicemanaged",
+            "properties": {
+                "serverKeyType": "ServiceManaged"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/securityAlertPolicies",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/sqlVulnerabilityAssessments",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/vulnerabilityAssessments",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                },
+                "storageContainerPath": "[parameters('vulnerabilityAssessments_Default_storageContainerPath')]"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices",
+            "apiVersion": "2022-05-01",
+            "name": "[concat(parameters('storageAccounts_alexeicovidreporting_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_alexeicovidreporting_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
             },
-            "subscriptionId": "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.subscription.subscriptionId]",
-            "resourceGroup": "[parameters('privateEndpoints')[copyIndex()].privateEndpointConfiguration.resourceGroup.value.name]",
-            "copy": {
-                "name": "privateendpointdnscopy",
-                "count": "[length(parameters('privateEndpoints'))]"
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                },
+                "deleteRetentionPolicy": {
+                    "allowPermanentDelete": false,
+                    "enabled": true,
+                    "days": 7
+                },
+                "isVersioningEnabled": false,
+                "changeFeed": {
+                    "enabled": false
+                },
+                "restorePolicy": {
+                    "enabled": false
+                },
+                "containerDeleteRetentionPolicy": {
+                    "enabled": true,
+                    "days": 7
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices",
+            "apiVersion": "2022-05-01",
+            "name": "[concat(parameters('storageAccounts_alexeicovidreportinggen2_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_alexeicovidreportinggen2_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
             },
-            "condition": "[and(not(parameters('publicNetworkAccess')), variables('integrateDns'))]"
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                },
+                "deleteRetentionPolicy": {
+                    "allowPermanentDelete": false,
+                    "enabled": false
+                },
+                "containerDeleteRetentionPolicy": {
+                    "enabled": false
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/fileServices",
+            "apiVersion": "2022-05-01",
+            "name": "[concat(parameters('storageAccounts_alexeicovidreporting_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_alexeicovidreporting_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "properties": {
+                "protocolSettings": {
+                    "smb": {}
+                },
+                "cors": {
+                    "corsRules": []
+                },
+                "shareDeleteRetentionPolicy": {
+                    "enabled": true,
+                    "days": 7
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/fileServices",
+            "apiVersion": "2022-05-01",
+            "name": "[concat(parameters('storageAccounts_alexeicovidreportinggen2_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_alexeicovidreportinggen2_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "properties": {
+                "protocolSettings": {
+                    "smb": {}
+                },
+                "cors": {
+                    "corsRules": []
+                },
+                "shareDeleteRetentionPolicy": {
+                    "enabled": false,
+                    "days": 0
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/queueServices",
+            "apiVersion": "2022-05-01",
+            "name": "[concat(parameters('storageAccounts_alexeicovidreporting_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_alexeicovidreporting_name'))]"
+            ],
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/queueServices",
+            "apiVersion": "2022-05-01",
+            "name": "[concat(parameters('storageAccounts_alexeicovidreportinggen2_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_alexeicovidreportinggen2_name'))]"
+            ],
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/tableServices",
+            "apiVersion": "2022-05-01",
+            "name": "[concat(parameters('storageAccounts_alexeicovidreporting_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_alexeicovidreporting_name'))]"
+            ],
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/tableServices",
+            "apiVersion": "2022-05-01",
+            "name": "[concat(parameters('storageAccounts_alexeicovidreportinggen2_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_alexeicovidreportinggen2_name'))]"
+            ],
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/advancedThreatProtectionSettings",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/CreateIndex')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/DbParameterization')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/DefragmentIndex')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/DropIndex')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/advisors",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/ForceLastGoodPlan')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "autoExecuteValue": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/auditingPolicies",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/Default')]",
+            "location": "France Central",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "auditingState": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/auditingSettings",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 0,
+                "isAzureMonitorTargetEnabled": false,
+                "state": "Disabled",
+                "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "weeklyRetention": "PT0S",
+                "monthlyRetention": "PT0S",
+                "yearlyRetention": "PT0S",
+                "weekOfYear": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 7,
+                "diffBackupIntervalInHours": 12
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/extendedAuditingSettings",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 0,
+                "isAzureMonitorTargetEnabled": false,
+                "state": "Disabled",
+                "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/geoBackupPolicies",
+            "apiVersion": "2014-04-01",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/Default')]",
+            "location": "France Central",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/ledgerDigestUploads",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/securityAlertPolicies",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/Current')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "state": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/coviddb/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_alexeicovidserver_name'), 'coviddb')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
+            ],
+            "properties": {
+                "recurringScans": {
+                    "isEnabled": false,
+                    "emailSubscriptionAdmins": true
+                }
+            }
         }
     ]
 }
