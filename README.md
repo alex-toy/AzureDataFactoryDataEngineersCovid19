@@ -80,6 +80,22 @@ Choose *Azure blob Storage* and *delimited text* :
 Choose *Azure Datalake Storage gen2* and *delimited text* :
 
 <img src="/pictures/population_dataset_gen2.png" title="population dataset"  width="400">
+Caution : you should add *population* for Directory below.
 <img src="/pictures/population_dataset_gen22.png" title="population dataset"  width="800">
+
+In the end, click *Validate all* and *Publish all*.
+<img src="/pictures/publish_all_dataset.png" title="population dataset"  width="800">
+
+3. Pipeline
+
+<img src="/pictures/new_pipeline.png" title="new pipeline"  width="400">
+<img src="/pictures/copy_population_pipeline.png" title="copy population pipeline"  width="800">
+<img src="/pictures/copy_population_pipeline2.png" title="copy population pipeline"  width="800">
+<img src="/pictures/copy_population_pipeline3.png" title="copy population pipeline"  width="800">
+<img src="/pictures/copy_population_pipeline4.png" title="copy population pipeline validate"  width="800">
+<img src="/pictures/copy_population_pipeline5.png" title="copy population pipeline debug"  width="800">
+
+In the end, *Publish all*. You should then find the file *population_by_age_tsv* under the *population* folder in the *alexeicovidgen2* storage account.
+<img src="/pictures/population_after_pipeline.png" title="population after pipeline"  width="800">
 
 
