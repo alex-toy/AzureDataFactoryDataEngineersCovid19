@@ -2,9 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "vulnerabilityAssessments_Default_storageContainerPath": {
-            "type": "SecureString"
-        },
         "servers_alexeicovidserver_name": {
             "defaultValue": "alexeicovidserver",
             "type": "String"
@@ -20,6 +17,15 @@
     },
     "variables": {},
     "resources": [
+        {
+            "type": "Microsoft.DataFactory/factories",
+            "apiVersion": "2018-06-01",
+            "name": "covidreportingdf",
+            "location": "[resourceGroup().location]",
+            "identity": {
+                "type": "SystemAssigned"
+            }
+        },
         {
             "type": "Microsoft.Sql/servers",
             "apiVersion": "2022-05-01-preview",
@@ -472,21 +478,6 @@
             ],
             "properties": {
                 "state": "Disabled"
-            }
-        },
-        {
-            "type": "Microsoft.Sql/servers/vulnerabilityAssessments",
-            "apiVersion": "2022-05-01-preview",
-            "name": "[concat(parameters('servers_alexeicovidserver_name'), '/Default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_alexeicovidserver_name'))]"
-            ],
-            "properties": {
-                "recurringScans": {
-                    "isEnabled": false,
-                    "emailSubscriptionAdmins": true
-                },
-                "storageContainerPath": "[parameters('vulnerabilityAssessments_Default_storageContainerPath')]"
             }
         },
         {
