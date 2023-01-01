@@ -108,4 +108,19 @@ In the end, *Publish all*. You should then find the file *population_by_age_tsv*
 
 <img src="/pictures/get_metadata.png" title="get metadata"  width="400">
 
+Grab an *If condition* item from the *iteration & conditionals* section.
 
+<img src="/pictures/get_metadata_condition.png" title="get metadata condition"  width="800">
+<img src="/pictures/get_metadata_condition2.png" title="get metadata condition"  width="800">
+
+Grab an *Web* item from the *General* section and put it in the false activities.
+
+<img src="/pictures/false_number_columns.png" title="bad number of columns activities"  width="500">
+
+5. Control Flow Activities - Delete activity
+
+Grab an *Delete* item from the *General* section and put it in the true activities.
+
+<img src="/pictures/delete_activity.png" title="delete activity"  width="800">
+
+At the end, publish the pipeline.
