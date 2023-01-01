@@ -59,7 +59,7 @@
 <img src="/pictures/create_sql2.png" title="create sql database"  width="800">
 
 
-## Environment Setup
+## Data Ingestion From Azure Blob
 
 1. Data ingestion from **Azure Blob**
 
@@ -140,3 +140,54 @@ Now upload a file to the *population* container and the pipeline should be trigg
 
 And you should see the pipeline run successfully
 <img src="/pictures/pipeline_run_successful.png" title="pipeline run successful"  width="800">
+
+
+
+## Data Ingestion From HTTP
+
+For the following, use the following URL : 
+base URL : https://raw.githubusercontent.com
+relative URL : cloudboxacademy/covid19/main/ecdc_data/cases_deaths.csv
+
+1. Create **Linked Services**
+
+Choose *HTTP*
+
+<img src="/pictures/ls_http.png" title="http linked service"  width="400">
+
+2. Create **Dataset**
+
+Choose *HTTP*, *Delimitedtext*
+
+<img src="/pictures/dataset_http.png" title="http dataset"  width="400">
+
+3. Create **Dataset gen2**
+
+Choose *gen2*, *Delimitedtext*
+
+<img src="/pictures/dataset_gen2_http.png" title="http dataset gen2"  width="400">
+
+4. Create **Pipeline**
+
+<img src="/pictures/pipeline_http.png" title="http pipeline"  width="800">
+
+Debug and check that the file is present in the container
+
+<img src="/pictures/pipeline_http_debug.png" title="http pipeline debug"  width="800">
+
+
+
+
+
+
+
+
+
+
+
+
+cloudboxacademy/covid19/main/ecdc_data/hospital_admissions.csv
+
+cloudboxacademy/covid19/main/ecdc_data/testing.csv
+
+cloudboxacademy/covid19/main/ecdc_data/country_response.csv
