@@ -98,4 +98,14 @@ In the end, click *Validate all* and *Publish all*.
 In the end, *Publish all*. You should then find the file *population_by_age_tsv* under the *population* folder in the *alexeicovidgen2* storage account.
 <img src="/pictures/population_after_pipeline.png" title="population after pipeline"  width="800">
 
+4. Control Flow Activities - Validation Activity
+
+<img src="/pictures/validation_activity.png" title="validation activity"  width="400">
+<img src="/pictures/validation_activity2.png" title="validation activity"  width="800">
+<img src="/pictures/validation_activity_debug.png" title="validation activity debug"  width="800">
+
+4. Control Flow Activities - Get Metadata
+
+<img src="/pictures/get_metadata.png" title="get metadata"  width="400">
+
 
