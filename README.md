@@ -185,6 +185,33 @@ Debug and check that the file is present in the container
 
 
 
+## Data Flows
+
+1. Source tranformation
+
+<img src="/pictures/source_transformation.png" title="source transformation"  width="400">
+<img src="/pictures/source_transformation2.png" title="source transformation"  width="400">
+<img src="/pictures/source_transformation3.png" title="source transformation"  width="400">
+
+2. Filter tranformation
+
+<img src="/pictures/source_transformation.png" title="source transformation"  width="400">
+
+3. Select tranformation
+
+<img src="/pictures/source_transformation.png" title="source transformation"  width="400">
+
+4. Pivot tranformation
+
+<img src="/pictures/source_transformation.png" title="source transformation"  width="400">
+
+5. Lookup tranformation
+
+<img src="/pictures/source_transformation.png" title="source transformation"  width="400">
+
+6. Sink tranformation
+
+<img src="/pictures/source_transformation.png" title="source transformation"  width="400">
 
 
 
@@ -194,8 +221,3 @@ Debug and check that the file is present in the container
 
 
 
-cloudboxacademy/covid19/main/ecdc_data/hospital_admissions.csv
-
-cloudboxacademy/covid19/main/ecdc_data/testing.csv
-
-cloudboxacademy/covid19/main/ecdc_data/country_response.csv
