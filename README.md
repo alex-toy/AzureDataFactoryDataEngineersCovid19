@@ -175,6 +175,14 @@ Debug and check that the file is present in the container
 
 <img src="/pictures/pipeline_http_debug.png" title="http pipeline debug"  width="800">
 
+5. Add parameters
+
+<img src="/pictures/parameters.png" title="parameters"  width="800">
+<img src="/pictures/parameters2.png" title="parameters"  width="800">
+<img src="/pictures/pipeline_parameters.png" title="pipeline parameters"  width="800">
+<img src="/pictures/pipeline_parameters2.png" title="pipeline parameters"  width="800">
+<img src="/pictures/pipeline_parameters3.png" title="pipeline parameters"  width="800">
+
 
 
 
