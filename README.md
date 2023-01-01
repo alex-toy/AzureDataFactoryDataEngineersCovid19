@@ -104,7 +104,7 @@ In the end, *Publish all*. You should then find the file *population_by_age_tsv*
 <img src="/pictures/validation_activity2.png" title="validation activity"  width="800">
 <img src="/pictures/validation_activity_debug.png" title="validation activity debug"  width="800">
 
-4. Control Flow Activities - Get Metadata
+5. Control Flow Activities - Get Metadata
 
 <img src="/pictures/get_metadata.png" title="get metadata"  width="400">
 
@@ -117,10 +117,26 @@ Grab an *Web* item from the *General* section and put it in the false activities
 
 <img src="/pictures/false_number_columns.png" title="bad number of columns activities"  width="500">
 
-5. Control Flow Activities - Delete activity
+6. Control Flow Activities - Delete activity
 
 Grab an *Delete* item from the *General* section and put it in the true activities.
 
 <img src="/pictures/delete_activity.png" title="delete activity"  width="800">
 
 At the end, publish the pipeline.
+
+7. Control Flow Activities - Create Event Trigger
+
+<img src="/pictures/create_event_trigger.png" title="create event trigger"  width="800">
+<img src="/pictures/create_event_trigger2.png" title="create event trigger"  width="800">
+
+Add the trigger to the pipeline
+<img src="/pictures/add_trigger_to_pipeline.png" title="add trigger to pipeline"  width="800">
+
+At the end, publish all.
+
+Now upload a file to the *population* container and the pipeline should be triggered successfully.
+<img src="/pictures/trigger.png" title="pipeline triggered"  width="800">
+
+And you should see the pipeline run successfully
+<img src="/pictures/pipeline_run_successful.png" title="pipeline run successful"  width="800">
