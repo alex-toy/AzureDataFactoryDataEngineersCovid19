@@ -211,7 +211,9 @@ Debug and check that the file is present in the container
 
 5. Lookup tranformation
 
-<img src="/pictures/source_transformation.png" title="source transformation"  width="800">
+<img src="/pictures/lookup_transformation.png" title="lookup transformation"  width="800">
+<img src="/pictures/lookup_transformation2.png" title="lookup transformation"  width="800">
+<img src="/pictures/lookup_transformation3.png" title="lookup transformation"  width="800">
 
 6. Sink tranformation
 
