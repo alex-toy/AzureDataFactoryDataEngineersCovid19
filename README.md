@@ -189,29 +189,31 @@ Debug and check that the file is present in the container
 
 1. Source tranformation
 
-<img src="/pictures/source_transformation.png" title="source transformation"  width="400">
-<img src="/pictures/source_transformation2.png" title="source transformation"  width="400">
-<img src="/pictures/source_transformation3.png" title="source transformation"  width="400">
+<img src="/pictures/source_transformation.png" title="source transformation"  width="800">
+<img src="/pictures/source_transformation2.png" title="source transformation"  width="800">
+<img src="/pictures/source_transformation3.png" title="source transformation"  width="800">
 
 2. Filter tranformation
 
-<img src="/pictures/source_transformation.png" title="source transformation"  width="400">
+<img src="/pictures/filter_transformation.png" title="filter transformation"  width="800">
+<img src="/pictures/filter_transformation2.png" title="filter transformation"  width="800">
+<img src="/pictures/filter_transformation3.png" title="filter transformation"  width="800">
 
 3. Select tranformation
 
-<img src="/pictures/source_transformation.png" title="source transformation"  width="400">
+<img src="/pictures/source_transformation.png" title="source transformation"  width="800">
 
 4. Pivot tranformation
 
-<img src="/pictures/source_transformation.png" title="source transformation"  width="400">
+<img src="/pictures/source_transformation.png" title="source transformation"  width="800">
 
 5. Lookup tranformation
 
-<img src="/pictures/source_transformation.png" title="source transformation"  width="400">
+<img src="/pictures/source_transformation.png" title="source transformation"  width="800">
 
 6. Sink tranformation
 
-<img src="/pictures/source_transformation.png" title="source transformation"  width="400">
+<img src="/pictures/source_transformation.png" title="source transformation"  width="800">
 
 
 
