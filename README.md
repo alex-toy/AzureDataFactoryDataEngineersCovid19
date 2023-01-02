@@ -219,10 +219,18 @@ Debug and check that the file is present in the container
 
 <img src="/pictures/sink_transformation.png" title="sink transformation"  width="800">
 
-6. Create ADF pipeline
+7. Create ADF pipeline
 
 <img src="/pictures/create_pipeline.png" title="create pipeline"  width="800">
 <img src="/pictures/processed_files.png" title="processed_files"  width="800">
+
+
+
+## Data Flows Hospital admission data
+
+1. Source transformation
+
+<img src="/pictures/source_transformation_hospital_admissions.png" title="source transformation"  width="800">
 
 
 
