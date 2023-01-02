@@ -217,7 +217,7 @@ Debug and check that the file is present in the container
 
 6. Sink tranformation
 
-<img src="/pictures/source_transformation.png" title="source transformation"  width="800">
+<img src="/pictures/sink_transformation.png" title="sink transformation"  width="800">
 
 
 
