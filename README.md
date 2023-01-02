@@ -206,7 +206,8 @@ Debug and check that the file is present in the container
 
 4. Pivot tranformation
 
-<img src="/pictures/source_transformation.png" title="source transformation"  width="800">
+<img src="/pictures/pivot_transformation.png" title="pivot transformation"  width="800">
+<img src="/pictures/pivot_transformation2.png" title="pivot transformation"  width="800">
 
 5. Lookup tranformation
 
