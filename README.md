@@ -232,6 +232,15 @@ Debug and check that the file is present in the container
 
 <img src="/pictures/source_transformation_hospital_admissions.png" title="source transformation"  width="800">
 
+2. Select transformation
+
+<img src="/pictures/select_transformation_ha.png" title="select transformation"  width="800">
+
+3. Lookup transformation
+
+<img src="/pictures/lookup_transformation_ha.png" title="lookup transformation"  width="800">
+<img src="/pictures/lookup_transformation_ha2.png" title="lookup transformation"  width="800">
+
 
 
 
