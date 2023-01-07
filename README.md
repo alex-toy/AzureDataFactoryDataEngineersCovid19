@@ -245,6 +245,10 @@ Debug and check that the file is present in the container
 
 <img src="/pictures/split_transformation_ha.png" title="split transformation"  width="800">
 
+5. Derived Column transformation
+
+<img src="/pictures/derive_transformation_ha.png" title="derived column transformation"  width="600">
+
 
 
 
