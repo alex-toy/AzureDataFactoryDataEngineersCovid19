@@ -264,6 +264,10 @@ Debug and check that the file is present in the container
 <img src="/pictures/pivot_transformation_ha3.png" title="pivot transformation"  width="800">
 <img src="/pictures/pivot_transformation_ha4.png" title="pivot transformation"  width="800">
 
+9. Sort transformation
+
+<img src="/pictures/sort_transformation_ha.png" title="sort transformation"  width="800">
+
 
 
 
