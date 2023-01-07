@@ -279,6 +279,14 @@ Debug and check that the file is present in the container
 
 
 
+## Databricks Activity
+
+1. Create Azure Databricks Service
+
+<img src="/pictures/databricks.png" title="create databricks"  width="800">
+
+
+
 
 
 
