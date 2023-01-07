@@ -253,9 +253,16 @@ Debug and check that the file is present in the container
 
 <img src="/pictures/aggregate_transformation_ha.png" title="aggregate transformation"  width="600">
 
-6. Join transformation
+7. Join transformation
 
 <img src="/pictures/join_transformation_ha.png" title="join transformation"  width="800">
+
+8. Pivot transformation
+
+<img src="/pictures/pivot_transformation_ha.png" title="pivot transformation"  width="800">
+<img src="/pictures/pivot_transformation_ha2.png" title="pivot transformation"  width="800">
+<img src="/pictures/pivot_transformation_ha3.png" title="pivot transformation"  width="800">
+<img src="/pictures/pivot_transformation_ha4.png" title="pivot transformation"  width="800">
 
 
 
