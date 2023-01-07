@@ -249,6 +249,14 @@ Debug and check that the file is present in the container
 
 <img src="/pictures/derive_transformation_ha.png" title="derived column transformation"  width="600">
 
+6. Aggregate transformation
+
+<img src="/pictures/aggregate_transformation_ha.png" title="aggregate transformation"  width="600">
+
+6. Join transformation
+
+<img src="/pictures/join_transformation_ha.png" title="join transformation"  width="800">
+
 
 
 
