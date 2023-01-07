@@ -285,6 +285,10 @@ Debug and check that the file is present in the container
 
 <img src="/pictures/databricks.png" title="create databricks"  width="800">
 
+1. Create Cluster
+
+<img src="/pictures/cluster.png" title="create cluster"  width="800">
+
 
 
 
