@@ -270,6 +270,15 @@ Debug and check that the file is present in the container
 
 
 
+## HDInsight Activity
+
+1. Create HDInsight Cluster
+
+<img src="/pictures/managed_identity.png" title="managed identity"  width="800">
+<img src="/pictures/create_cluster.png" title="create cluster"  width="600">
+
+
+
 
 
 
