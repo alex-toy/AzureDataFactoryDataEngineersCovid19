@@ -241,6 +241,10 @@ Debug and check that the file is present in the container
 <img src="/pictures/lookup_transformation_ha.png" title="lookup transformation"  width="800">
 <img src="/pictures/lookup_transformation_ha2.png" title="lookup transformation"  width="800">
 
+4. Split transformation
+
+<img src="/pictures/split_transformation_ha.png" title="split transformation"  width="800">
+
 
 
 
